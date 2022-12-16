@@ -1,0 +1,1 @@
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.6.12&packaging=jar&jvmVersion=11&groupId=com.study&artifactId=mvc-20220927-h&name=mvc-20220927-h&description=model%20view%20controller%20mvc%20study&packageName=com.study.mvc-20220927-h&dependencies=devtools,lombok,thymeleaf,web
