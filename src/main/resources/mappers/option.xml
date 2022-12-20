@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.springboot202210h.repository.OptionRepository">
+    <insert id="saveCategory" parameterType="com.study.springboot202210h.web.dto.CategoryDto"
+            useGeneratedKeys="true" keyProperty="categoryId">
+
+        insert into category_mst
+        values (0, #{categoryName})
+    </insert>
+    <select id="getCategories" resultType="com.study.springboot202210h.web.dto.CategoryDto">
+        select
+            category_id as categoryId,
+            category_name as categoryName
+        from
+          category_mst
+    </select>
+
+    <update id="modifyCategory" parameterType="com.study.springboot202210h.web.dto.CategoryDto">
+        update category_mst
+        <trim prefix="set" suffixOverrides=",">
+            <if test="categoryName != null">
+                category_name = #{categoryName},
+            </if>
+            <if test="categoryOpt1 != null">
+                category_opt1 = #{categoryOpt1},
+            </if>
+            <if test="categoryOpt2 != null">
+                category_opt2 = #{categoryOpt2},
+            </if>
+        </trim>
+        where
+            category_id = #{categoryId}
+    </update>
+
+</mapper>
