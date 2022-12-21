@@ -23,6 +23,7 @@ public class OptionController {
     }
 
     @GetMapping("/categories")
+//    @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ResponseEntity<?> getCategories() {
         return ResponseEntity.ok(optionService.getCategories());
     }
