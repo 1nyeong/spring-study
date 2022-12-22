@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Map;
 
 public class CustomTestException extends RuntimeException{
-    
+
     @Getter
     private Map<String, String> errorMap;
 

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <title>Document</title>
+  <style>
+        * {
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            margin: 100px auto;
+            border: 1px solid #dbdbdb;
+            padding: 30px;
+            width: 500px;
+        }
+
+        .register-title {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .register-inputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            margin-bottom: 15px;
+            width: 80%;
+        }
+
+        .register-text {
+            text-align: center;
+            margin-bottom: 5px;
+            border: 1px solid #dbdbdb;
+            outline: none;
+
+            padding: 10px;
+            width: 100%;
+
+            cursor: pointer;
+        }
+
+        .register-text:focus {
+            box-shadow: 0px 0px 10px 1px #dbdbdb;
+        }
+
+        .error-msg {
+            color: rgb(255, 73, 23);
+            font-size: 11px;
+        }
+
+        .register-button {
+            border: 1px solid #dbdbdb;
+            padding: 10px;
+            width: 80%;
+            background-color: black;
+
+            color: white;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .register-button:active {
+            background-color: #303030;
+            box-shadow: 0px 0px 10px 1px #dbdbdb;
+        }
+
+    </style>
+</head>
+<body>
+<div id="container">
+  <h1 class="register-title">회원가입</h1>
+  <div class="register-inputs">
+    <input type="text" class="register-text" placeholder="사용자이름">
+    <div class="error-msg">
+
+    </div>
+  </div>
+  <div class="register-inputs">
+    <input type="password" class="register-text" placeholder="비밀번호">
+    <div class="error-msg">
+
+    </div>
+  </div>
+  <div class="register-inputs">
+    <input type="text" class="register-text" placeholder="이름">
+    <div class="error-msg">
+
+    </div>
+  </div>
+  <div class="register-inputs">
+    <input type="text" class="register-text" placeholder="이메일">
+    <div class="error-msg">
+
+    </div>
+  </div>
+  <button class="register-button">회원가입</button>
+</div>
+
+<script>
+        class RegisterApi {
+            static #instance = null;
+            static getInstance() {
+                if(this.#instance == null) {
+                    this.#instance = new RegisterApi();
+                }
+                return this.#instance;
+            }
+
+            registrationUser(user) {
+                $.ajax({
+                    async: false,
+                    type: "post",
+                    url: "/api/account/user",
+                    contentType: "application/json",
+                    data: JSON.stringify(user),
+                    dataType: "json",
+                    success: (response) => {
+
+                    },
+                    error: (errorResponse) => {
+
+                    }
+                });
+            }
+
+            duplicateUsername(username) {
+                $.ajax({
+                    async: false,
+                    type: "get",
+                    url: "/api/account/username",
+                    contentType: "application/json",
+                    data: JSON.stringify({"username": username}),
+                    dataType: "json",
+                    success: (response) => {
+
+                    },
+                    error: (errorResponse) => {
+
+                    }
+                });
+            }
+        }
+
+        class RegisterService {
+            static #instance = null;
+            static getInstance() {
+                if(this.#instance == null) {
+                    this.#instance = new RegisterService();
+                }
+                return this.#instance;
+            }
+
+            addEventToUsernameInput() {
+                const usernameInput = document.querySelectorAll(".register-text")[0];
+                usernameInput.onblur = () => {
+                    alert("중복확인 요청");
+                    RegisterApi.getInstance().duplicateUsername(usernameInput.value);
+                }
+            }
+
+
+        }
+
+        window.onload = () => {
+            RegisterService.getInstance().addEventToUsernameInput();
+        }
+
+    </script>
+</body>
+</html>
