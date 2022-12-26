@@ -130,10 +130,10 @@
                     data: JSON.stringify(user),
                     dataType: "json",
                     success: (response) => {
-
+                        console.log(response);
                     },
                     error: (errorResponse) => {
-
+                        console.log(errorResponse);
                     }
                 });
             }
@@ -155,7 +155,7 @@
                     error: (errorResponse) => {
                         console.log(errorResponse);
                         usernameInput.classList.remove("success");
-                        usernameError.textContent = errorResponse.responseJSON.data.duplicate;
+                        usernameError.innerHTML = errorResponse.responseJSON.data.username;
                     }
                 });
             }
@@ -177,11 +177,26 @@
                 }
             }
 
+            addEventToRegisterButton() {
+                const registerButton = document.querySelector(".register-button");
+                registerButton.onclick = () => {
+                    const registerInputs = document.querySelectorAll(".register-text");
+                    const user = {
+                        username: registerInputs[0].value,
+                        password: registerInputs[1].value,
+                        name: registerInputs[2].value,
+                        email: registerInputs[3].value
+                    }
+                    RegisterApi.getInstance().registrationUser(user);
+                }
+            }
+
 
         }
 
         window.onload = () => {
             RegisterService.getInstance().addEventToUsernameInput();
+            RegisterService.getInstance().addEventToRegisterButton();
         }
 
 
