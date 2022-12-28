@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,15 +9,15 @@
 </head>
 <body>
 <script>
-        const test = () => {
-            alert("테스트 호출!!!");
-        };
-
-        const abc = test;
-
-        test();
-
-        abc();
+        const user = {
+            username: "test",
+            password: "1234",
+            name: "홍길동"
+        }
+        Object.keys(user).forEach(key => {
+            console.log(key);
+            console.log(user[key]);
+        });
 
     </script>
 </body>

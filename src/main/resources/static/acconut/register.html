@@ -122,6 +122,7 @@
             }
 
             registrationUser(user) {
+                const errorMsgs = document.querySelectorAll(".error-msg");
                 $.ajax({
                     async: false,
                     type: "post",
@@ -131,9 +132,29 @@
                     dataType: "json",
                     success: (response) => {
                         console.log(response);
+                        errorMsgs.forEach(errorMsg => {
+                            errorMsg.textContent = "";
+                        });
                     },
                     error: (errorResponse) => {
                         console.log(errorResponse);
+                        const errorMap = errorResponse.responseJSON.data;
+
+                        errorMsgs.forEach(errorMsg => {
+                            errorMsg.textContent = "";
+                        });
+
+                        Object.keys(errorMap).forEach(key => {
+                            if(key == "username") {
+                                errorMsgs[0].textContent = errorMap[key];
+                            }else if(key == "password") {
+                                errorMsgs[1].textContent = errorMap[key];
+                            }else if(key == "name") {
+                                errorMsgs[2].textContent = errorMap[key];
+                            }else if(key == "email") {
+                                errorMsgs[3].textContent = errorMap[key];
+                            }
+                        });
                     }
                 });
             }
@@ -146,7 +167,9 @@
                     async: false,
                     type: "get",
                     url: "/api/account/username",
-                    data: {"username": username},
+                    data: {
+                        "username": username
+                    },
                     dataType: "json",
                     success: (response) => {
                         usernameInput.classList.add("success");
@@ -155,9 +178,10 @@
                     error: (errorResponse) => {
                         console.log(errorResponse);
                         usernameInput.classList.remove("success");
-                        usernameError.innerHTML = errorResponse.responseJSON.data.username;
+                        usernameError.textContent = errorResponse.responseJSON.data.username;
                     }
                 });
+
             }
         }
 
